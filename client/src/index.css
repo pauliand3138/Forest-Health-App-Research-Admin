@@ -1,0 +1,270 @@
+body {
+    margin: 0;
+    padding: 0;
+    background-color: #c0f196;
+    display: flex;
+    justify-content: center;
+    font-family: "Trebuchet MS", Arial, sans-serif;
+}
+
+.app {
+    background-color: white;
+    box-shadow: rgba(0, 0, 0, 0.5) 0 6px 24px rgb(0, 0, 0, 0.5) 0 0 0 1px;
+    border-radius: 10px;
+    padding: 10px;
+    width: 800px;
+    margin-top: 50px;
+}
+
+.button-container,
+.info-container {
+    display: flex;
+    align-items: center;
+}
+
+.button-container button,
+.footer button {
+    margin: 0 5px;
+    padding: 5px 10px;
+    font-size: 16px;
+    border-radius: 15px;
+    background-color: transparent;
+    font-weight: 400;
+}
+
+.edit {
+    border: 1.5px solid green;
+    background-color: white;
+    color: green;
+}
+
+.edit:hover {
+    background-color: rgb(182, 223, 186);
+}
+
+.edit:active {
+    color: white;
+    background-color: green;
+}
+
+.edit:active i {
+    color: white !important;
+}
+
+.delete {
+    border: 1.5px solid red;
+    color: red;
+}
+
+.delete:hover {
+    background-color: rgb(255, 201, 193);
+}
+
+.delete:active {
+    background-color: red;
+    color: white;
+}
+
+.delete:active i {
+    color: white !important;
+}
+
+.view {
+    border: 1.5px solid #3651d9;
+    color: #3651d9;
+}
+
+.view:hover {
+    background-color: #d0ccff;
+}
+
+.view:active {
+    background-color: #3651d9;
+    color: white;
+}
+
+.view:active i {
+    color: white !important;
+}
+
+.create {
+    border: 1.5px solid darkorange;
+    color: darkorange;
+    background-color: white;
+}
+
+.create:hover {
+    background-color: rgb(253, 206, 134);
+}
+
+.create:active {
+    background-color: darkorange;
+    color: white;
+}
+
+.create:active i {
+    color: white !important;
+}
+
+.signout {
+    border: 1.5px solid darkgray;
+    background-color: darkgray !important;
+    color: white;
+}
+
+.signout:hover {
+    background-color: #5a5a5a !important;
+    border: 1.5px solid #5a5a5a;
+}
+
+.signout:active {
+    border: 1.5px solid black;
+    background-color: black !important;
+    color: white;
+}
+
+input,
+select {
+    margin: 11px 0;
+    padding: 12px 16px;
+    border-radius: 12px;
+    border: 1.5px solid rgb(230, 232, 236);
+}
+
+.list-header {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    border-bottom: rgba(0, 0, 0, 0.1) 1px solid;
+}
+
+.list-item {
+    width: 100%;
+    margin: 10px 0;
+    border-radius: 10px;
+    box-shadow: rgba(0, 0, 0, 0.08) 0 0 0 1px;
+    display: flex;
+    justify-content: space-between;
+}
+
+.form-icon {
+    padding: 10px;
+}
+
+.overlay {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.modal {
+    width: 500px;
+    background-color: white;
+    padding: 40px;
+    border-radius: 10px;
+    box-shadow: rgba(0, 0, 0, 0.05) 0 6px 24px 0, rgba(0, 0, 0, 0.08) 0 0 0 1px;
+}
+
+.modal .form-title-container {
+    display: flex;
+    justify-content: space-between;
+}
+
+.modal .form-title-container button {
+    border: none;
+    background-color: transparent;
+}
+
+.modal .form-title-container button:active {
+    color: red;
+}
+
+.modal form {
+    display: flex;
+    flex-direction: column;
+}
+
+.modal label {
+    font-size: 16px;
+}
+
+.auth-container {
+    display: flex;
+    justify-content: center;
+    margin: 5px;
+}
+
+.auth-container-box {
+    width: 500px;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: rgba(0, 0, 0, 0.05) 0 6px 24px, rgba(0, 0, 0, 0.08) 0 0 0 1px;
+}
+
+.auth-container-box form {
+    display: flex;
+    flex-direction: column;
+    height: fit-content;
+    padding: 20px;
+}
+
+.auth-options {
+    display: flex;
+}
+
+.auth-options button {
+    width: 50%;
+    border: none;
+    padding: 10px;
+    color: rgb(35, 38, 47);
+}
+
+.copyright {
+    font-size: 13px;
+    margin: 20px 0 10px;
+    color: rgb(114, 114, 144);
+}
+
+.user-email {
+    float: right;
+    font-size: 16px;
+    margin: 10px;
+    color: rgb(114, 114, 144);
+}
+
+.empty-form {
+    width: 100%;
+    margin: 50px 0 50px 0;
+    text-align: center;
+}
+
+.footer {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.edit-profile {
+    border: 1.5px solid black;
+    color: black;
+}
+
+.edit-profile:hover {
+    background-color: darkgrey;
+}
+
+.edit-profile:active {
+    color: white;
+    background-color: black;
+}
+
+.edit-profile:active i {
+    color: white !important;
+}
