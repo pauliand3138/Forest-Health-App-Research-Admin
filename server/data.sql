@@ -14,8 +14,7 @@ CREATE TABLE form (
 CREATE TABLE citizen_scientist (
     userId VARCHAR(255) PRIMARY KEY,
     password VARCHAR(255),
-    firstName VARCHAR(30),
-    lastName VARCHAR(30),
+    name VARCHAR(30),
     gender VARCHAR(10),
     dateOfBirth VARCHAR(255)
 );
@@ -73,3 +72,10 @@ VALUES
 (3, 'Moderate'),
 (4, 'High'),
 (5, 'Extreme');
+
+CREATE TABLE research_staff (
+    staffId VARCHAR(255) PRIMARY KEY,
+    password VARCHAR(255),
+    name VARCHAR(30),
+    isAdmin boolean,
+);

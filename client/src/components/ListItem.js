@@ -2,14 +2,14 @@ import React, { useState } from "react";
 import FormIcon from "./FormIcon";
 import Modal from "./Modal";
 
-const ListItem = ({ form, getData }) => {
+const ListItem = ({ user, getData }) => {
     const [showModal, setShowModal] = useState(false);
     const [mode, setMode] = useState(null);
 
     const deleteItem = async () => {
         try {
             const response = await fetch(
-                `http://localhost:8000/forms/${form.formid}`,
+                `http://localhost:8000/users/${user.staffid}`,
                 {
                     method: "DELETE",
                 }
@@ -25,24 +25,10 @@ const ListItem = ({ form, getData }) => {
         <li className="list-item">
             <div className="info-container">
                 <FormIcon />
-                <p>{form.location}</p>
+                <p>{user.name}</p>
             </div>
 
             <div className="button-container">
-                <p style={{ color: "gray" }}>{form.date}</p>
-                <button
-                    className="view"
-                    onClick={() => {
-                        setMode("view");
-                        setShowModal(true);
-                    }}
-                >
-                    <i
-                        className="fa-regular fa-eye"
-                        style={{ color: "#3651d9", marginRight: "5px" }}
-                    ></i>
-                    View
-                </button>
                 <button
                     className="edit"
                     onClick={() => {
@@ -69,7 +55,7 @@ const ListItem = ({ form, getData }) => {
                     mode={mode}
                     setShowModal={setShowModal}
                     getData={getData}
-                    form={form}
+                    user={user}
                 />
             )}
         </li>

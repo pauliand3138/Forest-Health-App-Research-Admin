@@ -8,8 +8,8 @@ const ListHeader = ({ listName, getData }) => {
 
     const signOut = () => {
         console.log("signout");
-        removeCookie("Email");
-        removeCookie("AuthToken");
+        removeCookie("ResearchEmail");
+        removeCookie("ResearchAuthToken");
         window.location.reload();
     };
 
@@ -22,7 +22,7 @@ const ListHeader = ({ listName, getData }) => {
                         className="fa-solid fa-plus"
                         style={{ color: "#ff8c00", marginRight: "5px" }}
                     ></i>
-                    Add New Exploration
+                    Add New Staff
                 </button>
                 <button className="signout" onClick={signOut}>
                     <i

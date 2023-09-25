@@ -11,14 +11,15 @@ app.use(cors());
 app.use(express.json());
 
 // Get all form submissions
-app.get("/forms/:userId", async (req, res) => {
+app.get("/users/:userId", async (req, res) => {
     const { userId } = req.params;
 
     try {
-        const forms = await pool.query("SELECT * FROM form WHERE userId= $1", [
-            userId,
-        ]);
-        res.json(forms.rows);
+        const users = await pool.query(
+            "SELECT * FROM research_staff WHERE staffid!= $1",
+            [userId]
+        );
+        res.json(users.rows);
     } catch (err) {
         console.error(err);
     }
@@ -27,13 +28,13 @@ app.get("/forms/:userId", async (req, res) => {
 // Get user form submissions
 app.get("/:userId", async (req, res) => {
     const { userId } = req.params;
-
+    console.log(userId);
     try {
-        const forms = await pool.query(
-            "SELECT * FROM citizen_scientist WHERE userId= $1",
+        const users = await pool.query(
+            "SELECT name, isadmin FROM research_staff WHERE staffid = $1",
             [userId]
         );
-        res.json(forms.rows);
+        res.json(users.rows);
     } catch (err) {
         console.error(err);
     }
@@ -162,13 +163,13 @@ app.delete("/forms/:formid", async (req, res) => {
 
 // signup
 app.post("/signup", async (req, res) => {
-    const { email, password, name, gender, dateOfBirth } = req.body;
+    const { email, password, name } = req.body;
     const salt = bcrypt.genSaltSync(10);
     const hashedPassword = bcrypt.hashSync(password, salt);
     try {
         await pool.query(
-            `INSERT INTO citizen_scientist (userid, password, name, gender, dateofbirth) VALUES($1, $2, $3, $4, $5)`,
-            [email, hashedPassword, name, gender, dateOfBirth]
+            `INSERT INTO research_staff (staffid, password, name, isadmin) VALUES($1, $2, $3, $4)`,
+            [email, hashedPassword, name, true]
         );
 
         const token = jwt.sign({ email }, "secret", { expiresIn: "1hr" });
@@ -187,7 +188,7 @@ app.post("/login", async (req, res) => {
     const { email, password } = req.body;
     try {
         const users = await pool.query(
-            "SELECT * FROM citizen_scientist WHERE userid = $1",
+            "SELECT * FROM research_staff WHERE staffid = $1",
             [email]
         );
 
@@ -199,7 +200,7 @@ app.post("/login", async (req, res) => {
         const token = jwt.sign({ email }, "secret", { expiresIn: "1hr" });
 
         if (success) {
-            res.json({ email: users.rows[0].userid, token });
+            res.json({ staffid: users.rows[0].staffid, token });
         } else {
             res.json({ detail: "Username or Password incorrect!" });
         }

@@ -10,8 +10,6 @@ const Auth = () => {
     const [password, setPassword] = useState(null);
     const [confirmPassword, setConfirmPassword] = useState(null);
     const [name, setName] = useState(null);
-    const [gender, setGender] = useState("Male");
-    const [dateOfBirth, setDateOfBirth] = useState(null);
 
     //console.log(email, password, confirmPassword, gender, dateOfBirth);
 
@@ -22,10 +20,7 @@ const Auth = () => {
 
     const handleSubmit = async (e, endpoint) => {
         e.preventDefault();
-        if (
-            !isLogin &&
-            (!password || !confirmPassword || !name || !gender || !dateOfBirth)
-        ) {
+        if (!isLogin && (!password || !confirmPassword || !name)) {
             setError("All fields must not be empty!");
             return;
         } else if (!isLogin && password !== confirmPassword) {
@@ -40,8 +35,6 @@ const Auth = () => {
                 email,
                 password,
                 name,
-                gender,
-                dateOfBirth,
             }),
         });
 
@@ -50,8 +43,8 @@ const Auth = () => {
         if (data.detail) {
             setError(data.detail);
         } else {
-            setCookie("Email", data.email);
-            setCookie("AuthToken", data.token);
+            setCookie("ResearchEmail", data.staffid);
+            setCookie("ResearchAuthToken", data.token);
 
             window.location.reload();
         }
@@ -94,25 +87,6 @@ const Auth = () => {
                             required
                             onChange={(e) => setConfirmPassword(e.target.value)}
                         />
-                    )}
-                    {!isLogin && (
-                        <input
-                            type="date"
-                            placeholder="Date of Birth"
-                            required
-                            onChange={(e) => setDateOfBirth(e.target.value)}
-                        />
-                    )}
-                    {!isLogin && (
-                        <select
-                            onChange={(e) => setGender(e.target.value)}
-                            name="gender"
-                            id="gender"
-                            required
-                        >
-                            <option value="Male">Male</option>
-                            <option value="Female">Female</option>
-                        </select>
                     )}
                     <input
                         type="submit"

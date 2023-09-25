@@ -4,8 +4,6 @@ const UserModal = ({ user, getUserData, setShowUserModal }) => {
     const [name, setName] = useState(user?.name);
     const [password, setPassword] = useState(null);
     const [retypePassword, setRetypePassword] = useState(null);
-    const [gender, setGender] = useState(user?.gender);
-    const [dateofbirth, setDateOfBirth] = useState(user?.dateofbirth);
     const [error, setError] = useState("");
     //console.log(user);
 
@@ -27,8 +25,6 @@ const UserModal = ({ user, getUserData, setShowUserModal }) => {
                     body: JSON.stringify({
                         name,
                         password,
-                        gender,
-                        dateofbirth,
                         userid: user.userid,
                     }),
                 }
@@ -62,26 +58,6 @@ const UserModal = ({ user, getUserData, setShowUserModal }) => {
                         onChange={(e) => setName(e.target.value)}
                     />
                     <br />
-                    <label>Gender</label>
-                    <select
-                        onChange={(e) => setGender(e.target.value)}
-                        name="gender"
-                        id="gender"
-                        value={gender}
-                        required
-                    >
-                        <option value="Male">Male</option>
-                        <option value="Female">Female</option>
-                    </select>
-                    <br />
-                    <label>Date of Birth</label>
-                    <input
-                        type="date"
-                        placeholder="Date of Birth"
-                        required
-                        value={dateofbirth}
-                        onChange={(e) => setDateOfBirth(e.target.value)}
-                    />
                     <hr
                         style={{
                             color: "lightgray",

@@ -7,9 +7,9 @@ import UserModal from "./components/UserModal";
 
 const App = () => {
     const [cookies, setCookie, removeCookie] = useCookies(null);
-    const authToken = cookies.AuthToken;
-    const userId = cookies.Email;
-    const [forms, setForms] = useState(null);
+    const authToken = cookies.ResearchAuthToken;
+    const staffId = cookies.ResearchEmail;
+    const [users, setUsers] = useState(null);
     const [showUserModal, setShowUserModal] = useState(false);
     const [user, setUser] = useState(null);
 
@@ -17,10 +17,11 @@ const App = () => {
     const getData = async () => {
         try {
             const response = await fetch(
-                `http://localhost:8000/forms/${userId}`
+                `http://localhost:8000/users/${staffId}`
             );
             const json = await response.json();
-            setForms(json);
+
+            setUsers(json);
         } catch (err) {
             console.error(err);
         }
@@ -28,7 +29,7 @@ const App = () => {
 
     const getUserData = async () => {
         try {
-            const response = await fetch(`http://localhost:8000/${userId}`);
+            const response = await fetch(`http://localhost:8000/${staffId}`);
             const json = await response.json();
             setUser(json);
         } catch (err) {
@@ -43,38 +44,29 @@ const App = () => {
         }
     }, []);
 
-    //console.log(user);
+    console.log(user);
 
-    const sortedForms = forms?.sort(
-        (a, b) => new Date(a.date) - new Date(b.date)
-    );
-
-    //console.log(sortedForms);
     return (
         <div className="app">
             {!authToken && <Auth />}
             {authToken && (
                 <>
                     <ListHeader
-                        listName={"🏝️Forest Health App"}
+                        listName={"👨🏻‍💼FHA Research Admin Dashboard"}
                         getData={getData}
                     />
                     <p className="user-email">
                         👋 Hello! {user ? user[0].name : ""}
                     </p>
-                    {sortedForms?.length == 0 ? (
+                    {users?.length == 0 ? (
                         <p className="empty-form">
                             🔎You have not made any research yet.
                         </p>
                     ) : (
                         <></>
                     )}
-                    {sortedForms?.map((form) => (
-                        <ListItem
-                            key={form.formid}
-                            form={form}
-                            getData={getData}
-                        />
+                    {users?.map((u) => (
+                        <ListItem key={u.staffid} user={u} getData={getData} />
                     ))}
                 </>
             )}
