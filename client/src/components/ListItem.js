@@ -6,6 +6,7 @@ const ListItem = ({ user, getData }) => {
     const [showModal, setShowModal] = useState(false);
     const [mode, setMode] = useState(null);
 
+    console.log(user);
     const deleteItem = async () => {
         try {
             const response = await fetch(

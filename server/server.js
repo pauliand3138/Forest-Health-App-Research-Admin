@@ -113,32 +113,18 @@ app.post("/forms", async (req, res) => {
 });
 
 //edit
-app.put("/forms/:formid", async (req, res) => {
-    const { formid } = req.params;
-    console.log(formid);
-    const {
-        location,
-        date,
-        landscapeid,
-        vegtypeid,
-        vegstageid,
-        burnsevid,
-        userid,
-    } = req.body;
+app.put("/users/:userid", async (req, res) => {
+    const { userid } = req.params;
+    console.log(userid);
+    const { password } = req.body;
+
+    const salt = bcrypt.genSaltSync(10);
+    const hashedPassword = bcrypt.hashSync(password, salt);
 
     try {
         const editForm = await pool.query(
-            "UPDATE form SET userid = $1, location = $2, date = $3, landscapeid = $4, vegtypeid = $5, vegstageid = $6, burnsevid = $7 WHERE formid = $8;",
-            [
-                userid,
-                location,
-                date,
-                landscapeid,
-                vegtypeid,
-                vegstageid,
-                burnsevid,
-                formid,
-            ]
+            "UPDATE research_staff SET password = $1 WHERE staffid = $2;",
+            [hashedPassword, userid]
         );
         res.json(editForm);
     } catch (err) {

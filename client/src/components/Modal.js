@@ -1,21 +1,16 @@
 import React from "react";
 import { useState } from "react";
-import { useCookies } from "react-cookie";
 
-const Modal = ({ mode, setShowModal, getData, form }) => {
-    const [cookies, setCookie, removeCookie] = useCookies(null);
-    const [isDisabled, setIsDisabled] = useState(mode === "view");
-    const editMode = mode === "edit" || mode === "view" ? true : false;
+const Modal = ({ mode, setShowModal, getData, user }) => {
+    const editMode = mode === "edit" ? true : false;
     const [error, setError] = useState(null);
 
     const [data, setData] = useState({
-        userid: editMode ? form.userid : cookies.Email,
-        location: editMode ? form.location : "",
-        landscapeid: editMode ? form.landscapeid : 1,
-        vegtypeid: editMode ? form.vegtypeid : 1,
-        vegstageid: editMode ? form.vegstageid : 1,
-        burnsevid: editMode ? form.burnsevid : 1,
-        date: editMode ? form.date : new Date().toISOString().split("T")[0],
+        staffid: editMode ? user.staffid : "",
+        name: editMode ? user.name : "",
+        password: "",
+        retypepassword: "",
+        isadmin: false,
     });
 
     const postData = async (e) => {
@@ -43,15 +38,18 @@ const Modal = ({ mode, setShowModal, getData, form }) => {
     };
 
     const editData = async (e) => {
-        if (!data.location) {
-            setError("All fields must not be empty!");
+        if (data.password === "" || data.retypepassword === "") {
+            setError("Password(s) must not be empty!");
+            return;
+        } else if (data.password !== data.retypepassword) {
+            setError("Passwords do not match!");
             return;
         }
 
         e.preventDefault();
         try {
             const response = await fetch(
-                `http://localhost:8000/forms/${form.formid}`,
+                `http://localhost:8000/users/${user.staffid}`,
                 {
                     method: "PUT",
                     headers: { "Content-Type": "application/json" },
@@ -84,84 +82,35 @@ const Modal = ({ mode, setShowModal, getData, form }) => {
         <div className="overlay">
             <div className="modal">
                 <div className="form-title-container">
-                    <h3>Let's {mode} your research</h3>
+                    <h3>
+                        {mode == "edit"
+                            ? `Set Temporary Password for ${data.name}`
+                            : ""}
+                    </h3>
                     <button onClick={() => setShowModal(false)}>X</button>
                 </div>
 
                 <form>
-                    <label>Research Location</label>
+                    <label>Temporary Password</label>
                     <input
+                        name="password"
+                        type="password"
+                        placeholder="Temporay Password"
                         required
-                        maxLength={100}
-                        placeholder="Location"
-                        name="location"
-                        value={data.location}
+                        value={data.password}
                         onChange={handleChange}
-                        disabled={isDisabled}
                     />
                     <br />
-                    <label>Landscape Position</label>
-                    <select
-                        value={data.landscapeid}
-                        onChange={handleChange}
-                        name="landscapeid"
-                        id="landscapeid"
+                    <label>Confirm Temporary Password</label>
+                    <input
+                        name="retypepassword"
+                        type="password"
+                        placeholder="Confirm Temporary Password"
                         required
-                        disabled={isDisabled}
-                    >
-                        <option value="1">Flat / Undulating</option>
-                        <option value="2">Ridge / Hill</option>
-                        <option value="3">Slope</option>
-                        <option value="4">Valley / Gully</option>
-                    </select>
-                    <br />
-                    <label>Vegetation Type</label>
-                    <select
-                        value={data.vegtypeid}
+                        value={data.retypepassword}
                         onChange={handleChange}
-                        name="vegtypeid"
-                        id="vegtypeid"
-                        required
-                        disabled={isDisabled}
-                    >
-                        <option value="1">Fern or Herb</option>
-                        <option value="2">Grassy</option>
-                        <option value="3">Shrubby</option>
-                        <option value="4">Rainforest</option>
-                        <option value="5">Riparian</option>
-                    </select>
-                    <br />
-                    <label>Vegetation Stage</label>
-                    <select
-                        value={data.vegstageid}
-                        onChange={handleChange}
-                        name="vegstageid"
-                        id="vegstageid"
-                        required
-                        disabled={isDisabled}
-                    >
-                        <option value="1">Old</option>
-                        <option value="2">Mature</option>
-                        <option value="3">Regrowth</option>
-                        <option value="4">Mixed</option>
-                        <option value="5">Few trees present</option>
-                    </select>
-                    <br />
-                    <label>Burn Severity</label>
-                    <select
-                        value={data.burnsevid}
-                        onChange={handleChange}
-                        name="burnsevid"
-                        id="burnsevid"
-                        required
-                        disabled={isDisabled}
-                    >
-                        <option value="1">Unburnt</option>
-                        <option value="2">Low</option>
-                        <option value="3">Moderate</option>
-                        <option value="4">High</option>
-                        <option value="5">Extreme</option>
-                    </select>
+                    />
+
                     {error && <p style={{ color: "red" }}>{error}</p>}
                     {(mode == "edit" || mode == "create") && (
                         <input
