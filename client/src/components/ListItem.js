@@ -37,17 +37,17 @@ const ListItem = ({ user, getData }) => {
                     }}
                 >
                     <i
-                        className="fa-regular fa-pen-to-square"
+                        className="fa-solid fa-user-shield"
                         style={{ color: "#008000", marginRight: "5px" }}
                     ></i>
-                    Edit
+                    Set Temporary Password
                 </button>
                 <button className="delete" onClick={deleteItem}>
                     <i
-                        className="fa-regular fa-trash-can"
+                        className="fa-solid fa-user-slash"
                         style={{ color: "#ff0000", marginRight: "5px" }}
                     ></i>
-                    Delete
+                    Delete Staff
                 </button>
             </div>
             {showModal && (

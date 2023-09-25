@@ -19,7 +19,7 @@ const ListHeader = ({ listName, getData }) => {
             <div className="button-container">
                 <button className="create" onClick={() => setShowModal(true)}>
                     <i
-                        className="fa-solid fa-plus"
+                        className="fa-solid fa-user-plus"
                         style={{ color: "#ff8c00", marginRight: "5px" }}
                     ></i>
                     Add New Staff
