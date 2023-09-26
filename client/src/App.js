@@ -60,7 +60,7 @@ const App = () => {
                     </p>
                     {users?.length == 0 ? (
                         <p className="empty-form">
-                            🔎You have not made any research yet.
+                            🔎 No users found in the system.
                         </p>
                     ) : (
                         <></>

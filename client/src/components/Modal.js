@@ -14,6 +14,8 @@ const Modal = ({ mode, setShowModal, getData, user }) => {
     });
 
     const postData = async (e) => {
+        e.preventDefault();
+
         if (
             !data.staffid ||
             !data.name ||
@@ -28,7 +30,7 @@ const Modal = ({ mode, setShowModal, getData, user }) => {
             setError("Passwords do not match!");
             return;
         }
-        e.preventDefault();
+
         try {
             const response = await fetch("http://localhost:8000/users/", {
                 method: "POST",

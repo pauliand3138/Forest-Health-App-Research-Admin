@@ -8,6 +8,8 @@ const UserModal = ({ user, getUserData, setShowUserModal }) => {
     //console.log(user);
 
     const updateUser = async (e) => {
+        e.preventDefault();
+
         if (!name) {
             setError("Name must not be empty!");
             return;
@@ -22,7 +24,6 @@ const UserModal = ({ user, getUserData, setShowUserModal }) => {
             setError("Passwords do not match!");
             return;
         }
-        e.preventDefault();
 
         try {
             const response = await fetch(

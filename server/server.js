@@ -72,7 +72,7 @@ app.put("/:staffid", async (req, res) => {
 // Create new
 app.post("/users", async (req, res) => {
     const { staffid, name, password, isadmin } = req.body;
-
+    console.log("Hello");
     const salt = bcrypt.genSaltSync(10);
     const hashedPassword = bcrypt.hashSync(password, salt);
 
