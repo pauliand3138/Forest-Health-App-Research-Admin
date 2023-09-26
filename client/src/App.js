@@ -14,7 +14,6 @@ const App = () => {
     const [user, setUser] = useState(null);
     const [userIsAdmin, setUserIsAdmin] = useState(true);
 
-    console.log(userIsAdmin);
     const getData = async () => {
         try {
             const response = await fetch(
