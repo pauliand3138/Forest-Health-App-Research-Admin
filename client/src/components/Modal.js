@@ -14,13 +14,23 @@ const Modal = ({ mode, setShowModal, getData, user }) => {
     });
 
     const postData = async (e) => {
-        if (!data.location) {
+        if (
+            !data.staffid ||
+            !data.name ||
+            !data.password ||
+            !data.retypepassword
+        ) {
             setError("All fields must not be empty!");
+            return;
+        }
+
+        if (data.password !== data.retypepassword) {
+            setError("Passwords do not match!");
             return;
         }
         e.preventDefault();
         try {
-            const response = await fetch("http://localhost:8000/forms/", {
+            const response = await fetch("http://localhost:8000/users/", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify(data),
@@ -85,12 +95,37 @@ const Modal = ({ mode, setShowModal, getData, user }) => {
                     <h3>
                         {mode == "edit"
                             ? `Set Temporary Password for ${data.name}`
-                            : ""}
+                            : "Let's add a new staff!"}
                     </h3>
                     <button onClick={() => setShowModal(false)}>X</button>
                 </div>
 
                 <form>
+                    {!editMode && (
+                        <>
+                            <label>Staff ID</label>
+                            <input
+                                name="staffid"
+                                type="text"
+                                placeholder="Name"
+                                required
+                                value={data.staffid}
+                                onChange={handleChange}
+                            />
+                            <br />
+                            <label>Name</label>
+                            <input
+                                name="name"
+                                type="text"
+                                placeholder="Name"
+                                required
+                                value={data.name}
+                                onChange={handleChange}
+                            />
+                            <br />
+                        </>
+                    )}
+
                     <label>Temporary Password</label>
                     <input
                         name="password"

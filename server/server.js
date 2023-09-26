@@ -28,7 +28,7 @@ app.get("/users/:userId", async (req, res) => {
 // Get user form submissions
 app.get("/:userId", async (req, res) => {
     const { userId } = req.params;
-    console.log(userId);
+    //console.log(userId);
     try {
         const users = await pool.query(
             "SELECT name, isadmin FROM research_staff WHERE staffid = $1",
@@ -72,41 +72,18 @@ app.put("/:userid", async (req, res) => {
 });
 
 // Create new
-app.post("/forms", async (req, res) => {
-    const {
-        location,
-        date,
-        landscapeid,
-        vegtypeid,
-        vegstageid,
-        burnsevid,
-        userid,
-    } = req.body;
-    console.log(
-        location,
-        date,
-        landscapeid,
-        vegtypeid,
-        vegstageid,
-        burnsevid,
-        userid
-    );
-    const formid = uuidv4();
+app.post("/users", async (req, res) => {
+    const { staffid, name, password, isadmin } = req.body;
+
+    const salt = bcrypt.genSaltSync(10);
+    const hashedPassword = bcrypt.hashSync(password, salt);
+
     try {
-        const newForm = await pool.query(
-            `INSERT INTO form(formid, location, date, landscapeid, vegtypeid, vegstageid, burnsevid, userid) VALUES($1, $2, $3, $4, $5, $6, $7, $8);`,
-            [
-                formid,
-                location,
-                date,
-                landscapeid,
-                vegtypeid,
-                vegstageid,
-                burnsevid,
-                userid,
-            ]
+        const newUser = await pool.query(
+            `INSERT INTO research_staff(staffid, password, name, isadmin) VALUES($1, $2, $3, $4);`,
+            [staffid, hashedPassword, name, isadmin]
         );
-        res.json(newForm);
+        res.json(newUser);
     } catch (err) {
         console.log(err);
     }
@@ -144,28 +121,6 @@ app.delete("/forms/:formid", async (req, res) => {
         res.json(deleteForm);
     } catch (err) {
         console.log(err);
-    }
-});
-
-// signup
-app.post("/signup", async (req, res) => {
-    const { email, password, name } = req.body;
-    const salt = bcrypt.genSaltSync(10);
-    const hashedPassword = bcrypt.hashSync(password, salt);
-    try {
-        await pool.query(
-            `INSERT INTO research_staff (staffid, password, name, isadmin) VALUES($1, $2, $3, $4)`,
-            [email, hashedPassword, name, true]
-        );
-
-        const token = jwt.sign({ email }, "secret", { expiresIn: "1hr" });
-
-        res.json({ email, token });
-    } catch (err) {
-        console.log(err);
-        if (err) {
-            res.json({ detail: "Email already exist!" });
-        }
     }
 });
 

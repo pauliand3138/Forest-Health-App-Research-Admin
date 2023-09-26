@@ -4,16 +4,13 @@ import { useCookies } from "react-cookie";
 
 const Auth = () => {
     const [cookies, setCookie, removeCookie] = useCookies(null);
-    const [isLogin, setIsLogin] = useState(true);
     const [error, setError] = useState(null);
     const [email, setEmail] = useState(null);
     const [password, setPassword] = useState(null);
-    const [confirmPassword, setConfirmPassword] = useState(null);
-    const [name, setName] = useState(null);
 
     //console.log(email, password, confirmPassword, gender, dateOfBirth);
 
-    const handleSubmit = async (e, endpoint) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
 
         if (!email || !password) {
@@ -21,13 +18,12 @@ const Auth = () => {
             return;
         }
 
-        const response = await fetch(`http://localhost:8000/${endpoint}`, {
+        const response = await fetch(`http://localhost:8000/login`, {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({
                 email,
                 password,
-                name,
             }),
         });
 
@@ -48,11 +44,7 @@ const Auth = () => {
         <div className="auth-container">
             <div className="auth-container-box">
                 <form>
-                    <h2>
-                        {isLogin
-                            ? "Welcome back! Please log in"
-                            : "Hello! Please sign up!"}
-                    </h2>
+                    <h2>Welcome back! Please log in</h2>
                     <input
                         type="email"
                         placeholder="Staff ID"
@@ -65,20 +57,10 @@ const Auth = () => {
                         required
                         onChange={(e) => setPassword(e.target.value)}
                     />
-                    {!isLogin && (
-                        <input
-                            type="password"
-                            placeholder="Confirm Password"
-                            required
-                            onChange={(e) => setConfirmPassword(e.target.value)}
-                        />
-                    )}
                     <input
                         type="submit"
                         className="create"
-                        onClick={(e) =>
-                            handleSubmit(e, isLogin ? "login" : "signup")
-                        }
+                        onClick={(e) => handleSubmit(e)}
                     />
                     {error && <p style={{ color: "red" }}>{error}</p>}
                 </form>
