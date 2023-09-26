@@ -110,15 +110,15 @@ app.put("/users/:userid", async (req, res) => {
 });
 
 // delete
-app.delete("/forms/:formid", async (req, res) => {
-    const { formid } = req.params;
+app.delete("/users/:userid", async (req, res) => {
+    const { userid } = req.params;
 
     try {
-        const deleteForm = await pool.query(
-            "DELETE FROM form WHERE formid = $1;",
-            [formid]
+        const deleteUser = await pool.query(
+            "DELETE FROM research_staff WHERE staffid = $1;",
+            [userid]
         );
-        res.json(deleteForm);
+        res.json(deleteUser);
     } catch (err) {
         console.log(err);
     }
