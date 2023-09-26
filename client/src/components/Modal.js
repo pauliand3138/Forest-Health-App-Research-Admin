@@ -50,6 +50,8 @@ const Modal = ({ mode, setShowModal, getData, user }) => {
     };
 
     const editData = async (e) => {
+        e.preventDefault();
+
         if (data.password === "" || data.retypepassword === "") {
             setError("Password(s) must not be empty!");
             return;
@@ -58,7 +60,6 @@ const Modal = ({ mode, setShowModal, getData, user }) => {
             return;
         }
 
-        e.preventDefault();
         try {
             const response = await fetch(
                 `http://localhost:8000/users/${user.staffid}`,
