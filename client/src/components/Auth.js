@@ -13,18 +13,11 @@ const Auth = () => {
 
     //console.log(email, password, confirmPassword, gender, dateOfBirth);
 
-    const viewLogin = (status) => {
-        setError(null);
-        setIsLogin(status);
-    };
-
     const handleSubmit = async (e, endpoint) => {
         e.preventDefault();
-        if (!isLogin && (!password || !confirmPassword || !name)) {
+
+        if (!email || !password) {
             setError("All fields must not be empty!");
-            return;
-        } else if (!isLogin && password !== confirmPassword) {
-            setError("Passwords do not match!");
             return;
         }
 
@@ -60,17 +53,9 @@ const Auth = () => {
                             ? "Welcome back! Please log in"
                             : "Hello! Please sign up!"}
                     </h2>
-                    {!isLogin && (
-                        <input
-                            type="text"
-                            placeholder="Name"
-                            required
-                            onChange={(e) => setName(e.target.value)}
-                        />
-                    )}
                     <input
                         type="email"
-                        placeholder="Email"
+                        placeholder="Staff ID"
                         required
                         onChange={(e) => setEmail(e.target.value)}
                     />
@@ -97,28 +82,6 @@ const Auth = () => {
                     />
                     {error && <p style={{ color: "red" }}>{error}</p>}
                 </form>
-                <div className="auth-options">
-                    <button
-                        onClick={() => viewLogin(false)}
-                        style={{
-                            backgroundColor: !isLogin
-                                ? "rgb(255,255,255)"
-                                : "rgb(188,188,188)",
-                        }}
-                    >
-                        Sign Up
-                    </button>
-                    <button
-                        onClick={() => viewLogin(true)}
-                        style={{
-                            backgroundColor: isLogin
-                                ? "rgb(255,255,255)"
-                                : "rgb(188,188,188)",
-                        }}
-                    >
-                        Login
-                    </button>
-                </div>
             </div>
         </div>
     );
