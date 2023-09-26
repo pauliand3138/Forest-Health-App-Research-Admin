@@ -12,6 +12,7 @@ const App = () => {
     const [users, setUsers] = useState(null);
     const [showUserModal, setShowUserModal] = useState(false);
     const [user, setUser] = useState(null);
+    const [userIsAdmin, setUserIsAdmin] = useState(null);
 
     //console.log(user);
     const getData = async () => {
@@ -32,6 +33,7 @@ const App = () => {
             const response = await fetch(`http://localhost:8000/${staffId}`);
             const json = await response.json();
             setUser(json);
+            setUserIsAdmin(user[0].isadmin);
         } catch (err) {
             console.error(err);
         }
@@ -102,9 +104,11 @@ const App = () => {
                     />
                 )}
             </div>
-            <p className="privilege-type">
-                ⚠️ You are logged in with limited privileges
-            </p>
+            {authToken && !userIsAdmin && (
+                <p className="privilege-type">
+                    ⚠️ You are logged in with limited privileges
+                </p>
+            )}
         </>
     );
 };

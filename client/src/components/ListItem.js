@@ -62,7 +62,9 @@ const ListItem = ({ user, getData, isadmin }) => {
                     )}
                 </>
             )}
-            <p class="user-type">{user.isadmin ? "Admin" : "User"}</p>
+            {!isadmin && (
+                <p class="user-type">{user.isadmin ? "Admin" : "User"}</p>
+            )}
         </li>
     );
 };
