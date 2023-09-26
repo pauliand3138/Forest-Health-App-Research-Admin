@@ -12,9 +12,9 @@ const App = () => {
     const [users, setUsers] = useState(null);
     const [showUserModal, setShowUserModal] = useState(false);
     const [user, setUser] = useState(null);
-    const [userIsAdmin, setUserIsAdmin] = useState(null);
+    const [userIsAdmin, setUserIsAdmin] = useState(true);
 
-    //console.log(user);
+    console.log(userIsAdmin);
     const getData = async () => {
         try {
             const response = await fetch(
@@ -33,7 +33,7 @@ const App = () => {
             const response = await fetch(`http://localhost:8000/${staffId}`);
             const json = await response.json();
             setUser(json);
-            setUserIsAdmin(user[0].isadmin);
+            setUserIsAdmin(json[0].isadmin);
         } catch (err) {
             console.error(err);
         }
