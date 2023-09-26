@@ -10,22 +10,30 @@ const UserModal = ({ user, getUserData, setShowUserModal }) => {
     const updateUser = async (e) => {
         if (!name) {
             setError("Name must not be empty!");
+            return;
         }
+
+        if (name == user.name && !password && !retypePassword) {
+            setError("No attributes to be updated!");
+            return;
+        }
+
         if (password !== retypePassword) {
             setError("Passwords do not match!");
+            return;
         }
         e.preventDefault();
 
         try {
             const response = await fetch(
-                `http://localhost:8000/${user.userid}`,
+                `http://localhost:8000/${user.staffid}`,
                 {
                     method: "PUT",
                     headers: { "Content-Type": "application/json" },
                     body: JSON.stringify({
                         name,
                         password,
-                        userid: user.userid,
+                        staffid: user.staffid,
                     }),
                 }
             );

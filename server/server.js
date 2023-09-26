@@ -10,7 +10,7 @@ const jwt = require("jsonwebtoken");
 app.use(cors());
 app.use(express.json());
 
-// Get all form submissions
+// Get all users
 app.get("/users/:userId", async (req, res) => {
     const { userId } = req.params;
 
@@ -25,13 +25,13 @@ app.get("/users/:userId", async (req, res) => {
     }
 });
 
-// Get user form submissions
+// Get loggedin user
 app.get("/:userId", async (req, res) => {
     const { userId } = req.params;
     //console.log(userId);
     try {
         const users = await pool.query(
-            "SELECT name, isadmin FROM research_staff WHERE staffid = $1",
+            "SELECT name, isadmin, staffid FROM research_staff WHERE staffid = $1",
             [userId]
         );
         res.json(users.rows);
@@ -40,19 +40,17 @@ app.get("/:userId", async (req, res) => {
     }
 });
 
-// edit user
-
-app.put("/:userid", async (req, res) => {
-    const { name, password, gender, dateofbirth, userid } = req.body;
-    console.log(userid);
+// edit own
+app.put("/:staffid", async (req, res) => {
+    const { name, password, staffid } = req.body;
     if (password) {
         const salt = bcrypt.genSaltSync(10);
         const hashedPassword = bcrypt.hashSync(password, salt);
 
         try {
             const editUser = await pool.query(
-                "UPDATE citizen_scientist SET name = $1, password = $2, gender = $3, dateofbirth = $4 WHERE userid = $5;",
-                [name, hashedPassword, gender, dateofbirth, userid]
+                "UPDATE research_staff SET name = $1, password = $2 WHERE staffid = $3;",
+                [name, hashedPassword, staffid]
             );
             res.json(editUser);
         } catch (err) {
@@ -61,8 +59,8 @@ app.put("/:userid", async (req, res) => {
     } else {
         try {
             const editUser = await pool.query(
-                "UPDATE citizen_scientist SET name = $1, gender = $2, dateofbirth = $3 WHERE userid = $4;",
-                [name, gender, dateofbirth, userid]
+                "UPDATE research_staff SET name = $1 WHERE staffid = $2;",
+                [name, staffid]
             );
             res.json(editUser);
         } catch (err) {
@@ -89,7 +87,7 @@ app.post("/users", async (req, res) => {
     }
 });
 
-//edit
+//edit users
 app.put("/users/:userid", async (req, res) => {
     const { userid } = req.params;
     console.log(userid);
