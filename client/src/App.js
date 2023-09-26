@@ -47,54 +47,65 @@ const App = () => {
     //console.log(user);
 
     return (
-        <div className="app">
-            {!authToken && <Auth />}
-            {authToken && (
-                <>
-                    <ListHeader
-                        listName={"👨🏻‍💼FHA Research Admin Dashboard"}
-                        getData={getData}
-                    />
-                    <p className="user-email">
-                        👋 Hello! {user ? user[0].name : ""}
-                    </p>
-                    {users?.length == 0 ? (
-                        <p className="empty-form">
-                            🔎 No users found in the system.
-                        </p>
-                    ) : (
-                        <></>
-                    )}
-                    {users?.map((u) => (
-                        <ListItem key={u.staffid} user={u} getData={getData} />
-                    ))}
-                </>
-            )}
-            <div className="footer">
-                <p className="copyright">
-                    © 2813ICT Software Engineering Fundamentals - Group 22
-                </p>
+        <>
+            <div className="app">
+                {!authToken && <Auth />}
                 {authToken && (
-                    <button
-                        className="edit-profile"
-                        onClick={() => setShowUserModal(true)}
-                    >
-                        <i
-                            className="fa-regular fa-user"
-                            style={{ color: "#000000", marginRight: "5px" }}
-                        ></i>
-                        Manage Profile
-                    </button>
+                    <>
+                        <ListHeader
+                            listName={"👨🏻‍💼FHA Research Admin Dashboard"}
+                            getData={getData}
+                            user={user ? user[0] : ""}
+                        />
+                        <p className="user-email">
+                            👋 Hello! {user ? user[0].name : ""}
+                        </p>
+                        {users?.length == 0 ? (
+                            <p className="empty-form">
+                                🔎 No users found in the system.
+                            </p>
+                        ) : (
+                            <></>
+                        )}
+                        {users?.map((u) => (
+                            <ListItem
+                                key={u.staffid}
+                                user={u}
+                                getData={getData}
+                                isadmin={user ? user[0].isadmin : ""}
+                            />
+                        ))}
+                    </>
+                )}
+                <div className="footer">
+                    <p className="copyright">
+                        © 2813ICT Software Engineering Fundamentals - Group 22
+                    </p>
+                    {authToken && (
+                        <button
+                            className="edit-profile"
+                            onClick={() => setShowUserModal(true)}
+                        >
+                            <i
+                                className="fa-regular fa-user"
+                                style={{ color: "#000000", marginRight: "5px" }}
+                            ></i>
+                            Manage Profile
+                        </button>
+                    )}
+                </div>
+                {showUserModal && (
+                    <UserModal
+                        user={user[0]}
+                        setShowUserModal={setShowUserModal}
+                        getUserData={getUserData}
+                    />
                 )}
             </div>
-            {showUserModal && (
-                <UserModal
-                    user={user[0]}
-                    setShowUserModal={setShowUserModal}
-                    getUserData={getUserData}
-                />
-            )}
-        </div>
+            <p className="privilege-type">
+                ⚠️ You are logged in with limited privileges
+            </p>
+        </>
     );
 };
 

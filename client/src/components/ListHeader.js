@@ -2,10 +2,10 @@ import React, { useState } from "react";
 import Modal from "./Modal";
 import { useCookies } from "react-cookie";
 
-const ListHeader = ({ listName, getData }) => {
+const ListHeader = ({ listName, getData, user }) => {
     const [cookies, setCookie, removeCookie] = useCookies(null);
     const [showModal, setShowModal] = useState(false);
-
+    //console.log(user);
     const signOut = () => {
         console.log("signout");
         removeCookie("ResearchEmail");
@@ -17,13 +17,19 @@ const ListHeader = ({ listName, getData }) => {
         <div className="list-header">
             <h1>{listName}</h1>
             <div className="button-container">
-                <button className="create" onClick={() => setShowModal(true)}>
-                    <i
-                        className="fa-solid fa-user-plus"
-                        style={{ color: "#ff8c00", marginRight: "5px" }}
-                    ></i>
-                    Add New Staff
-                </button>
+                {user.isadmin && (
+                    <button
+                        className="create"
+                        onClick={() => setShowModal(true)}
+                    >
+                        <i
+                            className="fa-solid fa-user-plus"
+                            style={{ color: "#ff8c00", marginRight: "5px" }}
+                        ></i>
+                        Add New Staff
+                    </button>
+                )}
+
                 <button className="signout" onClick={signOut}>
                     <i
                         className="fa-solid fa-right-from-bracket"

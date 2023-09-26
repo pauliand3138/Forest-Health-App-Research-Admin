@@ -235,7 +235,7 @@ select {
     float: right;
     font-size: 16px;
     margin: 10px;
-    color: rgb(114, 114, 144);
+    color: black;
 }
 
 .empty-form {
@@ -267,4 +267,20 @@ select {
 
 .edit-profile:active i {
     color: white !important;
+}
+
+.user-type {
+    margin-right: 10px;
+    font-style: italic;
+    color: gray;
+}
+
+.privilege-type {
+    margin: 10px auto;
+    background-color: white;
+    padding: 10px;
+    text-align: center;
+    width: 400px;
+    border-radius: 30px;
+    color: black;
 }
