@@ -11,13 +11,13 @@ app.use(cors());
 app.use(express.json());
 
 // Get all users
-app.get("/users/:userId", async (req, res) => {
-    const { userId } = req.params;
+app.get("/users/:staffid", async (req, res) => {
+    const { staffid } = req.params;
 
     try {
         const users = await pool.query(
             "SELECT * FROM research_staff WHERE staffid!= $1",
-            [userId]
+            [staffid]
         );
         res.json(users.rows);
     } catch (err) {
@@ -26,13 +26,12 @@ app.get("/users/:userId", async (req, res) => {
 });
 
 // Get loggedin user
-app.get("/:userId", async (req, res) => {
-    const { userId } = req.params;
-    //console.log(userId);
+app.get("/:staffid", async (req, res) => {
+    const { staffid } = req.params;
     try {
         const users = await pool.query(
             "SELECT name, isadmin, staffid FROM research_staff WHERE staffid = $1",
-            [userId]
+            [staffid]
         );
         res.json(users.rows);
     } catch (err) {
@@ -72,7 +71,6 @@ app.put("/:staffid", async (req, res) => {
 // Create new
 app.post("/users", async (req, res) => {
     const { staffid, name, password, isadmin } = req.body;
-    console.log("Hello");
     const salt = bcrypt.genSaltSync(10);
     const hashedPassword = bcrypt.hashSync(password, salt);
 
@@ -88,9 +86,8 @@ app.post("/users", async (req, res) => {
 });
 
 //edit users
-app.put("/users/:userid", async (req, res) => {
-    const { userid } = req.params;
-    console.log(userid);
+app.put("/users/:staffid", async (req, res) => {
+    const { staffid } = req.params;
     const { password } = req.body;
 
     const salt = bcrypt.genSaltSync(10);
@@ -99,7 +96,7 @@ app.put("/users/:userid", async (req, res) => {
     try {
         const editForm = await pool.query(
             "UPDATE research_staff SET password = $1 WHERE staffid = $2;",
-            [hashedPassword, userid]
+            [hashedPassword, staffid]
         );
         res.json(editForm);
     } catch (err) {
@@ -108,13 +105,13 @@ app.put("/users/:userid", async (req, res) => {
 });
 
 // delete
-app.delete("/users/:userid", async (req, res) => {
-    const { userid } = req.params;
+app.delete("/users/:staffid", async (req, res) => {
+    const { staffid } = req.params;
 
     try {
         const deleteUser = await pool.query(
             "DELETE FROM research_staff WHERE staffid = $1;",
-            [userid]
+            [staffid]
         );
         res.json(deleteUser);
     } catch (err) {
