@@ -133,7 +133,7 @@ const Modal = ({ mode, setShowModal, getData, user }) => {
                     <input
                         name="password"
                         type="password"
-                        placeholder="Temporay Password"
+                        placeholder="Temporary Password"
                         required
                         value={data.password}
                         onChange={handleChange}
