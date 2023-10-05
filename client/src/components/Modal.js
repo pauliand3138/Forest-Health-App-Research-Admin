@@ -31,21 +31,21 @@ const Modal = ({ mode, setShowModal, getData, user }) => {
             return;
         }
 
-        try {
-            const response = await fetch("http://localhost:8000/users/", {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify(data),
-            });
+        const response = await fetch("http://localhost:8000/users/", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(data),
+        });
 
-            if (response.status === 200) {
-                //console.log("WORKED");
-                setShowModal(false);
-                getData();
-                setError("");
-            }
-        } catch (err) {
-            console.log(err);
+        const responseData = await response.json();
+
+        if (responseData.detail) {
+            setError(responseData.detail);
+        } else {
+            //console.log("WORKED");
+            setShowModal(false);
+            getData();
+            setError("");
         }
     };
 

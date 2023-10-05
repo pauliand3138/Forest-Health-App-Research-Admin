@@ -81,6 +81,10 @@ app.post("/users", async (req, res) => {
         );
         res.json(newUser);
     } catch (err) {
+        if (err) {
+            res.json({ detail: "Staff ID already exist!" });
+        }
+
         console.log(err);
     }
 });

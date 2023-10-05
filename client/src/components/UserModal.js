@@ -38,7 +38,11 @@ const UserModal = ({ user, getUserData, setShowUserModal }) => {
                     }),
                 }
             );
-            console.log(response);
+
+            if (response.detail) {
+                setError(response.detail);
+            }
+
             if (response.status === 200) {
                 setShowUserModal(false);
                 getUserData();
