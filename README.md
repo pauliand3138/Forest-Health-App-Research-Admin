@@ -14,7 +14,17 @@ Prototype for the Forest Health Website Dashboard (Research Team) that demonstra
    ```
    npm install
    ```
-3) Run the backend
+3) You might need to update the `user` and `password` values inside `server/db.js`
+   ```javascript
+   const pool = new Pool({
+    user: "YOUR POSTGRESQL USERNAME",
+    password: "YOUR POSTGRESQL PASSWORD",
+    host: "localhost",
+    port: 5432,
+    database: "forestHealthDB",
+   });
+   ```
+5) Run the backend
    ```
    npm run
    ```
